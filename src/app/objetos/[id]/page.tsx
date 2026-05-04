@@ -87,8 +87,8 @@ export default async function ItemDetailPage({ params }: ItemDetailPageProps) {
               ) : (
                 <article className="rounded-[24px] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow)] sm:col-span-2">
                   <p className="text-sm leading-7 text-[#d3c3a5]">
-                    Este objeto no expone estadísticas legibles en el API actual,
-                    pero se mantiene accesible con su coste, categoría y tier.
+                    Este objeto no muestra estadísticas adicionales en esta ficha,
+                    pero mantiene visible su coste, categoría y tier.
                   </p>
                 </article>
               )}

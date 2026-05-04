@@ -4,7 +4,6 @@ import Header from "@/components/Header";
 import {
   getPlayableHeroes,
   getShopItems,
-  type DeadlockHero,
   type DeadlockItemCategory,
 } from "@/lib/deadlock-api";
 
@@ -63,17 +62,7 @@ function getCategoryCount(
   return items.filter((item) => item.category === category).length;
 }
 
-function getHeroStatLabel(hero: DeadlockHero) {
-  if (hero.complexity >= 3) {
-    return "Caso complejo";
-  }
 
-  if (hero.complexity === 2) {
-    return "Perfil mixto";
-  }
-
-  return "Entrada accesible";
-}
 
 export default async function Home() {
   const [heroes, items] = await Promise.all([getPlayableHeroes(), getShopItems()]);
@@ -103,28 +92,25 @@ export default async function Home() {
             </p>
 
             <h1 className="mt-6 font-[family-name:var(--font-cormorant)] text-6xl font-semibold leading-none tracking-[0.04em] text-[var(--foreground)] sm:text-7xl lg:text-8xl">
-              Deadlock Hub
+              Deadlock 
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--muted)] sm:text-xl">
               Explora héroes y objetos de Deadlock de forma simple y visual.
             </p>
 
-            <p className="mt-6 max-w-2xl text-sm leading-7 text-[#d8c7aa]">
-              Datos conectados al Assets API de Deadlock, envueltos en una
-              dirección visual de ciudad, humo, latón y expedientes.
-            </p>
+            
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/heroes"
-                className="inline-flex items-center justify-center rounded-full border border-[#d8ae67] bg-[#d8ae67] px-7 py-3 text-sm font-semibold tracking-[0.18em] text-[#1a120c] uppercase transition hover:bg-[#e3bc7b]"
+                className="inline-flex items-center justify-center rounded-full border border-[var(--border)] bg-[rgba(255,255,255,0.04)] px-7 py-3 text-sm font-semibold tracking-[0.18em] text-[#1a120c] uppercase transition hover:bg-[#e3bc7b]"
               >
                 Ver héroes
               </Link>
               <Link
                 href="/objetos"
-                className="inline-flex items-center justify-center rounded-full border border-[var(--border)] bg-[rgba(255,255,255,0.04)] px-7 py-3 text-sm font-semibold tracking-[0.18em] text-[var(--foreground)] uppercase transition hover:bg-[rgba(255,255,255,0.08)]"
+                className="inline-flex items-center justify-center rounded-full border border-[var(--border)] bg-[rgba(255,255,255,0.04)] px-7 py-3 text-sm font-semibold tracking-[0.18em] text-[var(--foreground)] uppercase transition hover:bg-[#e3bc7b] "
               >
                 Ver objetos
               </Link>
@@ -180,9 +166,7 @@ export default async function Home() {
                     {marqueeHero?.name}
                   </h2>
                 </div>
-                <span className="rounded-full border border-[var(--border)] bg-[rgba(255,255,255,0.04)] px-3 py-1 text-[10px] tracking-[0.24em] text-[var(--muted)] uppercase">
-                  {marqueeHero ? getHeroStatLabel(marqueeHero) : "Sin datos"}
-                </span>
+               
               </div>
 
               <div className="relative min-h-[26rem] overflow-hidden rounded-[28px] border border-[var(--border)] bg-[#120d09]">
@@ -195,7 +179,7 @@ export default async function Home() {
                       }}
                     />
                     <Image
-                      src={marqueeHero.backgroundImage}
+                      src={marqueeHero.image}
                       alt={marqueeHero.name}
                       fill
                       unoptimized
@@ -276,8 +260,8 @@ export default async function Home() {
                 </h2>
               </div>
               <p className="max-w-xl text-sm leading-7 text-[#d3c3a5]">
-                Datos obtenidos del Assets API: héroes jugables activos y mejoras
-                de tienda con categorías visibles para Weapon, Vitality y Spirit.
+                Un vistazo al reparto y al arsenal de Deadlock, con categorías
+                claras para Weapon, Vitality y Spirit.
               </p>
             </div>
 
@@ -348,10 +332,7 @@ export default async function Home() {
                 Tres retratos aleatorios del reparto
               </h2>
             </div>
-            <p className="max-w-xl text-sm leading-7 text-[#d3c3a5]">
-              La selección cambia por carga y utiliza imágenes reales del Assets API
-              para mantener la portada conectada con el juego.
-            </p>
+            
           </div>
 
           <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -411,10 +392,7 @@ export default async function Home() {
                 Tres mejoras aleatorias con icono y coste
               </h2>
             </div>
-            <p className="max-w-xl text-sm leading-7 text-[#d3c3a5]">
-              La muestra usa mejoras de tienda filtradas del endpoint `v2/items`
-              para evitar objetos internos o entradas técnicas.
-            </p>
+           
           </div>
 
           <div className="mt-10 grid gap-5 md:grid-cols-3">

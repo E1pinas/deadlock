@@ -87,14 +87,15 @@ export default async function HeroDetailPage({ params }: HeroDetailPageProps) {
 
           <div className="mt-10 grid gap-6">
             {hero.abilities.length ? (
-              hero.abilities.map((ability) => (
-                <article
+              hero.abilities.map((ability, index) => (
+                <details
                   key={ability.id}
-                  className="rounded-[30px] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow)]"
+                  open={index === 0}
+                  className="rounded-[30px] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow)]"
                 >
-                  <div className="grid gap-6 lg:grid-cols-[0.3fr_0.7fr]">
-                    <div>
-                      <div className="relative h-24 w-24 overflow-hidden rounded-[24px] border border-[var(--border)] bg-[rgba(255,255,255,0.05)]">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5">
+                    <div className="flex items-center gap-4">
+                      <div className="relative h-16 w-16 overflow-hidden rounded-[18px] border border-[var(--border)] bg-[rgba(255,255,255,0.05)]">
                         <Image
                           src={ability.icon}
                           alt={ability.name}
@@ -103,62 +104,68 @@ export default async function HeroDetailPage({ params }: HeroDetailPageProps) {
                           className="object-cover"
                         />
                       </div>
-                      <span className="mt-4 inline-flex rounded-full border border-[var(--border)] bg-[rgba(255,255,255,0.04)] px-3 py-1 text-[10px] tracking-[0.24em] text-[var(--muted)] uppercase">
-                        {ability.type}
-                      </span>
+                      <div>
+                        <h3 className="font-[family-name:var(--font-cormorant)] text-3xl font-semibold text-[var(--foreground)]">
+                          {ability.name}
+                        </h3>
+                        <p className="mt-1 text-sm text-[var(--muted)]">
+                          {ability.type}
+                        </p>
+                      </div>
                     </div>
 
-                    <div>
-                      <h3 className="font-[family-name:var(--font-cormorant)] text-3xl font-semibold text-[var(--foreground)]">
-                        {ability.name}
-                      </h3>
-                      <p className="mt-3 text-sm font-medium text-[var(--muted)]">
-                        {ability.summary}
-                      </p>
-                      <p className="mt-4 text-sm leading-7 text-[#d3c3a5]">
-                        {ability.description}
-                      </p>
+                    <span className="rounded-full border border-[var(--border)] bg-[rgba(255,255,255,0.04)] px-3 py-1 text-[10px] tracking-[0.24em] text-[var(--muted)] uppercase">
+                      Ver detalles
+                    </span>
+                  </summary>
 
-                      <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                        {ability.stats.map((stat) => (
-                          <StatCard
-                            key={`${ability.id}-${stat.label}`}
-                            label={stat.label}
-                            value={stat.value}
-                            className="rounded-[20px] bg-[rgba(255,255,255,0.03)] p-4 shadow-none"
-                            valueClassName="text-xl"
-                          />
+                  <div className="border-t border-[var(--border)] px-6 py-6">
+                    <p className="text-sm font-medium text-[var(--muted)]">
+                      {ability.summary}
+                    </p>
+                    <p className="mt-4 text-sm leading-7 text-[#d3c3a5]">
+                      {ability.description}
+                    </p>
+
+                    <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                      {ability.stats.map((stat) => (
+                        <StatCard
+                          key={`${ability.id}-${stat.label}`}
+                          label={stat.label}
+                          value={stat.value}
+                          className="rounded-[20px] bg-[rgba(255,255,255,0.03)] p-4 shadow-none"
+                          valueClassName="text-xl"
+                        />
+                      ))}
+                    </div>
+
+                    {!!ability.upgrades.length && (
+                      <div className="mt-6 grid gap-4 lg:grid-cols-3">
+                        {ability.upgrades.map((upgrade) => (
+                          <div
+                            key={`${ability.id}-tier-${upgrade.tier}`}
+                            className="rounded-[20px] border border-[var(--border)] bg-[rgba(255,255,255,0.03)] p-4"
+                          >
+                            <p className="text-[10px] tracking-[0.24em] text-[var(--accent)] uppercase">
+                              Mejora {upgrade.tier}
+                            </p>
+                            <div className="mt-3 grid gap-2 text-sm leading-6 text-[#d3c3a5]">
+                              {upgrade.bonuses.map((bonus) => (
+                                <p key={bonus}>{bonus}</p>
+                              ))}
+                            </div>
+                          </div>
                         ))}
                       </div>
-
-                      {!!ability.upgrades.length && (
-                        <div className="mt-6 grid gap-4 lg:grid-cols-3">
-                          {ability.upgrades.map((upgrade) => (
-                            <div
-                              key={`${ability.id}-tier-${upgrade.tier}`}
-                              className="rounded-[20px] border border-[var(--border)] bg-[rgba(255,255,255,0.03)] p-4"
-                            >
-                              <p className="text-[10px] tracking-[0.24em] text-[var(--accent)] uppercase">
-                                Mejora {upgrade.tier}
-                              </p>
-                              <div className="mt-3 grid gap-2 text-sm leading-6 text-[#d3c3a5]">
-                                {upgrade.bonuses.map((bonus) => (
-                                  <p key={bonus}>{bonus}</p>
-                                ))}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+                    )}
                   </div>
-                </article>
+                </details>
               ))
             ) : (
               <article className="rounded-[30px] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow)]">
                 <p className="text-sm leading-7 text-[#d3c3a5]">
-                  Este héroe no expone poderes completos en el API actual o se ha
-                  cargado desde el fallback local.
+                  Este héroe no muestra todavía todos sus poderes completos en
+                  esta ficha.
                 </p>
               </article>
             )}

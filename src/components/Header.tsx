@@ -14,7 +14,7 @@ export default function Header() {
           href="/"
           className="font-[family-name:var(--font-cormorant)] text-2xl font-semibold tracking-[0.16em] text-[var(--foreground)] uppercase"
         >
-          Deadlock Hub
+          Deadlock 
         </Link>
 
         <nav className="hidden items-center gap-6 text-xs tracking-[0.18em] text-[var(--muted)] uppercase md:flex">
